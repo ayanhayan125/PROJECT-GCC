@@ -43,6 +43,15 @@ uint32_t CountSetBits(uint32_t Data)
            LookUpTable[0xFF & Data >> 24 ];
 }
 
+uint32_t SetBitsFromPos(uint32_t Data, uint8_t Pos, uint8_t Bits)
+{
+    for(;Bits>0; Bits--)
+    {
+        Data = Data|(1<<(Pos+(Bits-1)));
+    }
+    return Data;
+}
+
 void main(void)
 {
     printf("INPUTDATABIT : 0x%08X\n", 0xFFFF0000);
@@ -60,6 +69,8 @@ void main(void)
     printf("COUNTSETBITS : 0x%02X\n", CountSetBits(Data));
     printf("COUNTCLRBITS : 0x%02X\n", sizeof(uint32_t)*8-CountSetBits(Data));
     printf("\n");
+    printf("SETBITSFMPOS : 0x%02X\n", SetBitsFromPos(0xFF00, 4, 8));
+    
     printf("CLRREGISBITS : 0x%08X\n", CLRREGISBITS(0xFFFF0000, 0xFFFF0000));
     printf("SETREGISBITS : 0x%08X\n", SETREGISBITS(0xFFFF0000, 0x0000FFFF));
     printf("TOGREGISBITS : 0x%08X\n", TOGREGISBITS(0xFFFF0000, 0xFF00FF00));
@@ -85,6 +96,7 @@ ENDIANSWAP32 : 0x78563412
 COUNTSETBITS : 0x08
 COUNTCLRBITS : 0x18
 
+SETBITSFMPOS : 0xFFF0
 CLRREGISBITS : 0x00000000
 SETREGISBITS : 0xFFFFFFFF
 TOGREGISBITS : 0x00FFFF00
